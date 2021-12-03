@@ -64,11 +64,15 @@ function HomeToTopic() {
     })
 
     const categoties = useSelector((state) => state.journalist.categoties)
-    let nameCate = categoties.find(item => item.cate_id == news[0].cate_id)
+    let nameCate
+    news.length == 0 ? nameCate = false : nameCate = categoties.find(item => item.cate_id == news[0].cate_id)
+     
 
 
     return (
-        <div className="my-container">
+        
+        <>
+        {nameCate ?<div className="my-container">
             <div className="my-grid">
                 <div className="my-row">
                     <div className="my-col-12">
@@ -83,7 +87,9 @@ function HomeToTopic() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>: <div className="my-container none_topic">chưa có bài viết cho thể loại này </div> }
+        
+        </>
 
     );
 }

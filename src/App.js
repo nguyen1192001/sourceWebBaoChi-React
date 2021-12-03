@@ -13,12 +13,14 @@ function App() {
     <div>
       <Router>
         <Switch>
-        <Route exact path="/" render={() => <User />} />
-          {
-            account !== null ? (<Route exact path="/dmin" render={() => <Admin />} />) : (<User/>)
+          <Route exact path="/" render={() => <User />} />
 
-          }
-       
+          <Route exact path="/dmin" render={() => {
+            if (account !== null) {
+              return <Admin />
+            }
+            return <User />
+          }} />
         </Switch>
       </Router>
 

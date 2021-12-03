@@ -22,7 +22,7 @@ function Introduce() {
             <span>Nhiệm Vụ: Back End, thiết kế xây dựng về phần Api, đóng góp xây dựng giao diện, chịu trách nhiện về chức năng tìm kiếm </span>
           </div>
           <div className="introduce_sv">
-            <span>Mssv: 2001191213</span><br />
+            <span>Mssv: 2001191203</span><br />
             <span>Tên: Diệp Bá Huy</span><br />
             <span>Nhiệm Vụ: Data, thiết kế xây dựng Data, đóng góp xây dựng giao diện, làm word báo cáo</span>
           </div>

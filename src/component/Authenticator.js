@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {  useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getListAccount } from '../Redux/action/admin';
 
-import {  changeStateAuthenticator, changeStateCreatNew, changeStateHome, changeStateModelMissPaass } from '../Redux/action/closeOpenComponet';
+import { changeStateAuthenticator, changeStateCreatNew, changeStateHome, changeStateModelMissPaass } from '../Redux/action/closeOpenComponet';
 import { setUserSession } from '../Utils/Common';
 
 import { Api } from './Api';
@@ -15,7 +15,7 @@ import MissPassMode from './MissPassMode';
 const qs = require('qs')
 
 function Authenticator() {
-  
+
   let history = useHistory()
 
   const dispatch = useDispatch()
@@ -45,7 +45,10 @@ function Authenticator() {
 
   const register = async () => {
     const response = await axios.get(Api().user)
-    const itemExitMail = response.data.find(item => item.email === email)
+
+
+    const itemExitMail = response.data.find(item => item.email == email)
+
 
     if (itemExitMail) {
       alert("has mail in account ")
@@ -73,6 +76,7 @@ function Authenticator() {
   }
   const login = async () => {
     const response = await axios.get(Api().user)
+    console.log("responce login", response.data)
     dispatch(getListAccount(response.data))
     const itemExitMail = response.data.find(item => item.email === emailLogin)
     if (itemExitMail) {
@@ -88,11 +92,10 @@ function Authenticator() {
           dispatch(changeStateHome())
         }
         else if (itemExitMail.sefl_des == "admin") {
-          
-          alert(itemExitMail.sefl_des)
+
           history.push("/dmin")
-          return ;
-          
+          return;
+
         }
 
       } else {
@@ -103,13 +106,13 @@ function Authenticator() {
     }
   }
 
-const clickMissPass = () =>{
-  dispatch(changeStateModelMissPaass())
-}
-  
-  const showFormMissPass = () =>{
-    if(stateModelMissPass){
-      return  <MissPassMode/>
+  const clickMissPass = () => {
+    dispatch(changeStateModelMissPaass())
+  }
+
+  const showFormMissPass = () => {
+    if (stateModelMissPass) {
+      return <MissPassMode />
     }
   }
 
@@ -124,7 +127,7 @@ const clickMissPass = () =>{
           <div className="cover_headerBox-left">
             <span>Login</span>
           </div>
-        
+
           <div className="cover_headerBox-right">
             <span>Register</span>
           </div>
@@ -135,14 +138,14 @@ const clickMissPass = () =>{
               <p>Đặng nhập với email</p>
             </div>
             <div className="contentBox-input">
-              <input type="email" name = "User_Email" placeholder = "email"  onChange={(e) => { setEmailLogin(e.target.value) }} />
+              <input type="email" name="User_Email" placeholder="email" onChange={(e) => { setEmailLogin(e.target.value) }} />
             </div>
             <div className="contentBox-input">
-              <input type="password" placeholder = "password" onChange={(e) => { setPassLogin(e.target.value) }} />
+              <input type="password" placeholder="password" onChange={(e) => { setPassLogin(e.target.value) }} />
             </div>
-            <div className="missPassword" onClick = {clickMissPass}>
+            <div className="missPassword" onClick={clickMissPass}>
               <span>Quên Mật Khẩu</span>
-              </div>
+            </div>
             <div className="contentBox-btn" onClick={login}>
               <button>Login</button>
             </div>
@@ -174,7 +177,7 @@ const clickMissPass = () =>{
           </div>
         </div>
       </div>
-     {showFormMissPass()}
+      {showFormMissPass()}
     </div>
   );
 }

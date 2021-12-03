@@ -890,3 +890,9 @@ td{
   line-height: 32px;
   padding-left: 12px;
 }
+
+.none_topic{
+  margin-top: 2.8rem;
+  text-align: center;
+  background-color: var(--primary-color);
+}
