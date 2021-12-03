@@ -1,55 +1,42 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListAccount, removeAccount } from "../../Redux/action/admin";
+import { getCategories, removeCategories } from "../../Redux/action/categories";
 import { Api } from "../Api";
-import AccountItem from "./AccountItem";
+import CateItem from "./CateItem";
 
-const qs = require("qs");
-
-function AccountManage() {
+export default function CategoriesManage() {
   const dispatch = useDispatch();
+  let [page, setPage] = useState(1);
 
-  const fetchListUsers = async () => {
-    const response = await axios.get(Api().user);
-    dispatch(getListAccount(response.data));
+  const categories = useSelector((state) => state.cate.categories);
+
+  const fetchListCategories = async () => {
+    const response = await axios.get(Api().categories);
+    dispatch(getCategories(response.data));
   };
   useEffect(() => {
-    fetchListUsers();
+    fetchListCategories();
   }, []);
-
-  const accounts = useSelector((state) => state.admin.accounts);
-
-  console.log("acount first time", accounts);
-
-  const [page, setPage] = useState(1);
 
   let perPage = 3;
   let start = (page - 1) * perPage;
   let end = page * perPage;
-  let newAccounts = [...accounts];
-  let [accountRender, setAccountRender] = useState(
-    newAccounts.slice(start, end)
-  );
-  console.log("accountrender", accountRender);
-  console.log("account start end", accounts.slice(start, end));
 
-  const listAccountSearch = (e) => {
+  const [cateRender, setCateRender] = useState(categories.slice(start, end));
+  const listCateSearch = (e) => {
     let renderList = null;
-    let { name, value } = e.target;
-    console.log("value", value);
-    renderList = accounts.filter((item) => {
-      return item.email.toLowerCase().indexOf(value.toLowerCase()) !== -1;
+    let { value } = e.target;
+    renderList = categories.filter((item) => {
+      return item.cate_name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     });
-    renderList == null
-      ? setAccountRender(accountRender)
-      : setAccountRender(renderList);
+    renderList == null ? setCateRender(cateRender) : setCateRender(renderList);
   };
-
-  const renderAccountManage = accountRender.map((item) => {
+  const renderCategories = cateRender.map((item) => {
     return (
       <>
-        <AccountItem item={item} />
+        {console.log("item", item)}
+        <CateItem item={item} />
       </>
     );
   });
@@ -57,30 +44,35 @@ function AccountManage() {
   const reduced = () => {
     if (page < 2) {
       setPage(1);
+      console.log("page line 25", page);
     } else {
+      console.log("page line 27", page);
       setPage(page - 1);
     }
-    setAccountRender(accounts.slice(start, end));
+    setCateRender(categories.slice(start, end));
+    //   renderArticleManage()
   };
   const increase = () => {
-    if (page >= accounts.length / 3) {
+    if (page >= categories.length / 3) {
       setPage(1);
+      console.log(page);
     } else {
       setPage(page + 1);
+      console.log(page);
     }
-    setAccountRender(accounts.slice(start, end));
+    setCateRender(categories.slice(start, end));
+
+    // renderArticleManage()
   };
 
   return (
     <div className="contentadmin">
-      {console.log("rerender")}
       <div id="box">
         <div className="box-panel">
           <div className="header_search boxAdmin">
             <div className="header_search-ip">
               <input
-                name="email"
-                onChange={listAccountSearch}
+                onChange={listCateSearch}
                 type="text"
                 placeholder="Nhập nội dung tìm kiếm"
                 defaultValue
@@ -98,12 +90,10 @@ function AccountManage() {
           <table className="table">
             <thead>
               <tr>
-                <th>email</th>
-                <th>full_name</th>
-                <th>sefl_des</th>
+                <th>name categories </th>
               </tr>
             </thead>
-            <tbody>{renderAccountManage}</tbody>
+            <tbody>{renderCategories}</tbody>
           </table>
           <div className="demochoichodui">
             <button onClick={reduced}>Prev</button>
@@ -114,5 +104,3 @@ function AccountManage() {
     </div>
   );
 }
-
-export default AccountManage;

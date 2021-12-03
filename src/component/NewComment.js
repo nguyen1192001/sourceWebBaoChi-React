@@ -5,10 +5,9 @@ import { getListAccount } from "../Redux/action/admin";
 import { getListComment } from "../Redux/action/articles";
 import { getUser } from "../Utils/Common";
 import { Api } from "./Api";
-
 const qs = require("qs");
 
-function Comment(props) {
+export default function NewComment(props) {
   const dispatch = useDispatch();
   const User = getUser();
 
@@ -17,31 +16,52 @@ function Comment(props) {
     dispatch(getListAccount(response.data));
   };
 
+  const listComment = useSelector((state) => state.user.commnets);
+  const users = useSelector((state) => state.admin.accounts);
+
+  console.log("list comment", listComment);
+  console.log("list user", users);
+
+  let [listMixComment, setListMixComment] = useState([]);
+
+  const mixCommentUser = () => {
+    for (let i = 0; i < users.length; i++) {
+      for (let j = 0; j < listComment.length; j++) {
+        if (users[i].user_id == listComment[j].user_id) {
+          let mixComment = { ...users[i], ...listComment[j] };
+          console.log("in mix comment", users[i].user_id);
+          listMixComment.push(mixComment);
+          console.log("list mix comment", listMixComment);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    mixCommentUser();
+  });
+
   useEffect(() => {
     fetchListUsers();
   }, []);
-
-  const listComment = useSelector((state) => state.user.commnets);
-  const user = useSelector((state) => state.admin.accounts);
-
-  const renderCommentUser = () =>
-    listComment.map((item) => {
-      const userComment = user.find((itemUs) => itemUs.user_id == item.user_id);
-      return (
-        <li className="item_comment">
-          <div className="header_account-logo">
-            {userComment ? (
-              <img src={userComment.avatar} alt="logoAvatar" />
-            ) : (
-              ""
-            )}
+  const renderCommentUser = listMixComment.map((item) => {
+    return (
+      <>
+        <div className="comment__old flex">
+          <div className="comment__old__avartar">
+            <img src={item.avatar} alt />
           </div>
-          <div className="user_comment">
-            <span>{item.cmt_cotnent}</span>
+          <div className="comment__old__content">
+            <div className="comment__old__detail">
+              <span>{item.usename}</span>
+              <span>{item.create_time}</span>
+            </div>
+            <span className="text_comment">{item.cmt_cotnent}</span>
           </div>
-        </li>
-      );
-    });
+        </div>
+      </>
+    );
+  });
 
   const [inputComment, setComment] = useState("");
 
@@ -55,8 +75,6 @@ function Comment(props) {
         },
       };
       const user_id = User.user.user_id;
-      console.log(" user ", User.user.user_id);
-      //   const article_id = listComment[0].article_id;
       const article_id = props.item;
       const cmt_cotnent = inputComment;
       var today = new Date();
@@ -94,41 +112,39 @@ function Comment(props) {
   };
 
   return (
-    <div className="article_comment">
-      <div className="article_comment_title">
-        <span>BÌNH LUẬN</span>
-      </div>
-      <ul className="list_comment">{renderCommentUser()}</ul>
-      <div className="box_article_comment">
-        <div className="header_account-logo">
+    <div className="comment">
+      <h3>BÌNH LUẬN</h3>
+      {console.log(listMixComment, "fffffff")}
+      <div className="comment__user flex">
+        <div className="comment__user__avartar">
           {getUser() === null ? (
-            <div className="header_account-logo">
-              <img
-                src="https://scontent.fsgn5-4.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-5&_nc_sid=7206a8&_nc_ohc=n2xWL5_brgUAX_xR6Jr&_nc_ht=scontent.fsgn5-4.fna&oh=b38f503cc15456be6cefdf0c69967c18&oe=61C96378"
-                alt="logoAvatar"
-              />
-            </div>
+            <img
+              src="./image/z2937267975608_6cf24cf7ee2240c7c4bb4325ba217a8a.jpg"
+              alt
+            />
           ) : (
-            <div className="header_account-logo">
-              <img src={User.user.avatar} alt="logoAvatar" />
-            </div>
+            <img src={User.user.avatar} alt="logoAvatar" />
           )}
         </div>
-        <div className="input_article_comment">
+        <div className="comment__user__text">
           <textarea
-            type="text"
-            defaultValue={""}
             onChange={(e) => {
               setComment(e.target.value);
             }}
+            rows={4}
+            cols={50}
+            placeholder="ý kiến của bạn "
+            defaultValue={""}
           />
         </div>
       </div>
-      <button className="button_article_comment" onClick={clickCommet}>
-        gửi bình luận
-      </button>
+      <div className="flex btn_send">
+        <button onClick={clickCommet}>gửi bình luận</button>
+      </div>
+      <div className="comment__number">
+        <p>{listMixComment.length}</p>
+      </div>
+      {renderCommentUser}
     </div>
   );
 }
-
-export default Comment;
