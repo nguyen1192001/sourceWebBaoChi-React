@@ -8,6 +8,9 @@
 :root {
   --primary-color: #f3dcd6;
 }
+button{
+  cursor: pointer;
+}
 li {
   list-style: none;
 }
@@ -144,6 +147,19 @@ body {
   height: 40px;
   margin-top: 2rem;
 }
+.groupBtn{
+  display: flex;
+  justify-content: space-around;
+}
+.groupBtn button{
+  background-color: #fff;
+}
+.Delete{
+  background-color: #ddd;
+}
+.groupBtn button:hover{
+  color: red;
+}
 /* --------------------- css taskbar */
 .taskbar_nav {
   width: 62.025rem;
@@ -198,7 +214,12 @@ li.nav_ul_li.more {
 .my-container {
   max-width: 60.625rem;
   margin: 0 auto;
+  padding-left: 8rem;
   font-family: Arial, Helvetica, sans-serif;
+}
+.chart-container{
+  margin-left: 20rem;
+  margin-top: 3rem;
 }
 .my-container a {
   color: #000;
@@ -208,6 +229,7 @@ li.nav_ul_li.more {
 }
 .my-row {
   display: flex;
+  margin-bottom: 1rem;
   width: 100%;
 }
 .my-col-8 {
@@ -220,6 +242,10 @@ li.nav_ul_li.more {
 }
 .col-4 {
   width: 33.33%;
+  padding: 1rem;
+}
+.col-2 {
+  width: 45%;
   padding: 1rem;
 }
 
@@ -253,6 +279,7 @@ li.nav_ul_li.more {
 }
 .first-new-title a:hover {
   color: var(--primary-color);
+  cursor: pointer;
 }
 
 .seconedNew-talkBar {
@@ -271,6 +298,15 @@ li.nav_ul_li.more {
 .seconedNew-talkBar-item-title {
   font-size: 18px;
 }
+
+.seconedNew-talkBar-item-title a:hover,
+.categories-title a:hover,
+.thirdNew-title a:hover {
+ cursor: pointer;
+ color: var(--primary-color);
+}
+
+
 .thirdNew-title {
   font-size: 1.4rem;
 }
@@ -314,6 +350,19 @@ li.nav_ul_li.more {
 /* dropdown */
 .journalist {
   border: 1px solid #e9ecef;
+  padding: 3rem;
+}
+.jounalist-title{
+  text-align: center;
+  padding: 2rem;
+}
+.submit-jounalist{
+  font-size: 2rem;
+  margin: 1rem 5rem 0 0;
+  float: right; 
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 2rem;
   padding: 1rem;
 }
 .menu {
@@ -498,7 +547,6 @@ a {
 }
 
 div#container {
-  height: 100vh;
   width: 100%;
   margin: 0 auto;
   font-family: "Mulish", sans-serif;
@@ -508,7 +556,6 @@ div#container {
 .sidebar {
   width: 250px;
   float: left;
-  height: 90vh;
   box-shadow: 5px 10px #888888;
 }
 .introduce_sidebar {
@@ -591,6 +638,7 @@ div#box {
 }
 
 div#box .box-panel {
+  margin-right: 1rem;
   padding: 15px;
   background: #fff;
   color: #333;
@@ -635,7 +683,7 @@ div#box .box-panel {
     border-radius: 1rem;
     left: 0;
     display: block;
-    position: absolute;
+    position: fixed;
   }
   a.mobile {
     display: none;
@@ -674,7 +722,7 @@ div#box .box-panel {
 }
 .table tr th,
 .table tr td {
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   border: 3px solid var(--primary-color);
 }
 /* th{

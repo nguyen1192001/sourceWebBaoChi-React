@@ -47,6 +47,8 @@ function AccountManage() {
   };
 
   const renderAccountManage = accountRender.map((item) => {
+
+    console.log('item account manage',item)
     return (
       <>
         <AccountItem item={item} />

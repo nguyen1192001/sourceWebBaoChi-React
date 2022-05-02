@@ -1,22 +1,38 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListNew, removeArticle } from '../../Redux/action/articles';
+import { getListNew, getNew, removeArticle } from '../../Redux/action/articles';
 import { useState } from 'react';
 import axios from 'axios';
 import { Api } from '../Api';
+import { changeStateaAdminAnalytics, changeStateaAdminArticles, changeStateCheckNew } from '../../Redux/action/closeOpenComponet';
+
 
 function ArticlesManage() {
     let [page , setPage] = useState(1)
 
     const dispatch = useDispatch()
     const news = useSelector((state) => state.user.articles)
-    console.log(news.length)
+    console.log(">>>>.new length",news)
     const removeArticleManage = (id) => {
-        console.log(">>>>>>>>>", id)
-        dispatch(removeArticle(id))
+        
     }
+
+    const fetchNew = async (idNew) => {
+        const response = await axios.get(Api().articlesfromtexted + "/" + idNew);
+        console.log(">>>>>>>..",response.data)
+        dispatch(getNew(response.data))
+      };
+
+    const checkNew = (id) => {
+        fetchNew(id)
+        dispatch(changeStateaAdminArticles())
+        dispatch(changeStateaAdminAnalytics())
+        dispatch(changeStateCheckNew())
+    }
+
     const fetchListNew = async () => {
-        const response = await axios.get(Api().articles)
+        // const response = await axios.get(Api().articles)
+        const response = await axios.get(Api().articlesfromtexted);
         dispatch(getListNew(response.data))
     }
 
@@ -71,14 +87,17 @@ function ArticlesManage() {
     }
 
    
-
+    console.log(">>>>>.news",news)
     const renderArticleManage = newRender.map((item) => {
+        
         return (
             <tr>
                 <td>{item.title}</td>
-                <td>{item.user_id}</td>
-                <td>{item.cate_id}</td>
-                <th className="adminEdit" onClick={() => { removeArticleManage(item.article_id) }}>DELETE</th>
+                <td>{item.user_Id}</td>
+                <td>{item.cate_Id}</td>
+                <td>{item.check}</td>
+                {item.check == 1 ? (<th className="adminEdit" onClick={() => { checkNew(item._id) }}>CHECK</th>): ""}
+                {item.check == 0 ? (<th className="adminEdit Delete" onClick={() => { removeArticleManage(item._id) }}>DELETE</th>) : ""}
 
             </tr>
         )
@@ -103,6 +122,7 @@ function ArticlesManage() {
                                 <th>title</th>
                                 <th>user</th>
                                 <th>cate</th>
+                                <th>check</th>
                             </tr>
                         </thead>
                         <tbody>

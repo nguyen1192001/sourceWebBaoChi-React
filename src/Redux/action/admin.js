@@ -6,6 +6,13 @@ export const getListAccount = (accounts)=>{
         payload:accounts
     }
 }
+
+export const getListAnalytics = (analytic)=>{
+    return {
+        type:ActionTypes.GET_LIST_ANALYTICS,
+        payload:analytic
+    }
+}
 export const removeAccount = (idAccount)=>{
     return{
         type:ActionTypes.REMOVE_ACCOUNT,

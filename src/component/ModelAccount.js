@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { changeStateaAdmin, changeStateAuthenticator, changeStateCreatNew, changeStateHome, changeStateUser } from '../Redux/action/closeOpenComponet';
+import { changeStateaAdmin, changeStateAuthenticator, changeStateCreatNew, changeStateHome, changeStateNews, changeStateUser } from '../Redux/action/closeOpenComponet';
 import { getUser, removeUserSession } from '../Utils/Common';
 
 
@@ -14,6 +14,7 @@ function ModelAccount() {
     const dispatch = useDispatch()
     const ChangeStateAuth = ()=>{
         dispatch(changeStateAuthenticator())
+        dispatch(changeStateNews())
     }
     const RemoveSesion = () =>{
         if(stateCreateNew){

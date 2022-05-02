@@ -10,7 +10,7 @@ import {
 import { Api } from "../Api";
 
 export default function CateItem(props) {
-  let { cate_name, cate_id } = props.item;
+  let { cate_Name, _id } = props.item;
 
   const dispatch = useDispatch();
 
@@ -19,11 +19,11 @@ export default function CateItem(props) {
   let [cateChange, setCate] = useState("");
   const [sateUpdate, setSateUpdate] = useState(false);
 
-  const deleteCate = (idCate) => {
+  const deleteCate = (_id) => {
     axios
-      .delete(Api().categories + "/" + idCate)
+      .delete(Api().categories + "/" + _id)
       .then(() => {
-        dispatch(removeCategories(idCate));
+        dispatch(removeCategories(_id));
         alert("delete item success");
       })
       .catch((err) => {
@@ -38,10 +38,10 @@ export default function CateItem(props) {
   };
 
   const updateCate = (id) => {
-    const updateCate = listCate.find((item) => item.cate_id === id);
-    updateCate.cate_name = cateChange;
+    const updateCate = listCate.find((item) => item._id === id);
+    updateCate.cate_Name = cateChange;
     axios
-      .put(Api().categories + "/" + id, updateCate)
+      .post(Api().categories + "/" + id, updateCate)
       .then(() => {
         setSateUpdate(false);
         dispatch(updateCategories(updateCate));
@@ -56,7 +56,7 @@ export default function CateItem(props) {
     <tr>
       <td>
         {!sateUpdate ? (
-          cate_name
+          cate_Name
         ) : (
           <>
             <input
@@ -73,7 +73,7 @@ export default function CateItem(props) {
               <button
                 className="btn_update"
                 onClick={() => {
-                  updateCate(cate_id);
+                  updateCate(_id);
                 }}
               >
                 cập nhật
@@ -86,7 +86,7 @@ export default function CateItem(props) {
       <td
         className="adminEdit"
         onClick={() => {
-          deleteCate(props.item.cate_id);
+          deleteCate(props.item._id);
         }}
       >
         DELETE

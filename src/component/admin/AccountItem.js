@@ -38,8 +38,8 @@ function AccountItem(props) {
         console.log("render userfect statecbb")
     }, [stateCbb])
     const updateAccount = (id) =>{
-        const userChange = accounts.find(item => item.user_id === id)
-        userChange.sefl_des = changeUser
+        const userChange = accounts.find(item => item._id === id)
+        userChange.self_des = changeUser
        
         let config = {
             headers: {
@@ -47,9 +47,9 @@ function AccountItem(props) {
             }
           }
        
-        let user = qs.stringify({user_id: userChange.user_id, usename: userChange.usename, email: userChange.email, password: userChange.password, full_name: userChange.full_name,avatar:userChange.avatar,sefl_des:userChange.sefl_des})
+        let user = qs.stringify({user_id: userChange.user_id, useName: userChange.useName, email: userChange.email, password: userChange.password, full_name: userChange.full_name,avatar:userChange.avatar,self_des:userChange.self_des})
       
-        axios.put(Api().user + "/" + id,user,config)
+        axios.post(Api().user + "/" + id,user,config)
         .then(() => {
             console.log("update succcccccccsessss")
             alert("update item success")
@@ -64,7 +64,7 @@ function AccountItem(props) {
 
     return(
         <tr>
-            {console.log("rerender account item", props.item.sefl_des)}
+            {console.log("rerender account item", props.item.self_des)}
         <td>{props.item.email}</td>
         <td>{props.item.full_name}</td>
         <td>
@@ -78,12 +78,12 @@ function AccountItem(props) {
                         <option value="admin" />
                     </datalist>
                 </div>
-                <button onClick = {()=>{updateAccount(props.item.user_id)}}>OK</button>
-            </div>) : (props.item.sefl_des)
+                <button onClick = {()=>{updateAccount(props.item._id)}}>OK</button>
+            </div>) : (props.item.self_des)
             }
         </td>
        
-        <td className="adminEdit" onClick = {()=>{deleteAccount(props.item.user_id)}}>DELETE</td>
+        <td className="adminEdit" onClick = {()=>{deleteAccount(props.item._id)}}>DELETE</td>
         <td className="adminEdit"  onClick = {()=>{setStateCombobox(!stateCbb)}}>UPDATE</td>
     </tr>
     )

@@ -12,7 +12,8 @@ function Home() {
   const dispatch = useDispatch();
 
   const fetchListNew = async () => {
-    const response = await axios.get(Api().articles);
+    const response = await axios.get(Api().articlesfromtexted);
+    console.log("home response data",response.data)
     dispatch(getListNew(response.data));
   };
 
@@ -21,31 +22,37 @@ function Home() {
   }, []);
 
   const fetchNew = async (idNew) => {
-    const response = await axios.get(Api().articles + "/" + idNew);
-    dispatch(getNew(response.data));
+    const response = await axios.get(Api().articlesfromtexted + "/" + idNew);
+    console.log(">>>>>>>..",response.data)
+    dispatch(getNew(response.data))
   };
 
   const selectNew = async (id) => {
-    const response = await axios.get(Api().commnet);
-
-    response.data.forEach((element) => {
-      if (element.article_id == id) {
-        dispatch(getListComment(element));
-      }
-    });
+    // const response = await axios.get(Api().commnet);
+    // response.data.forEach((element) => {
+    //   if (element._id == id) {
+    //     dispatch(getListComment(element));
+    //   }
+    // });
     fetchNew(id);
-    dispatch(changeStateHome());
-    dispatch(changeStateNews());
+      dispatch(changeStateHome());
+      dispatch(changeStateNews());
   };
 
-  const news = useSelector((state) => state.user.articles);
+ let news = useSelector((state) => state.user.articles);
+  console.log("beforre filter >>>....",news)
+  news = news.filter((item) => {
+    return item.check == 0
+  })
+
+  console.log("new in home",news)
   const renderFirstNew = news.map((item, index) => {
     if (index < 1) {
       return (
         <div
           className="first-new"
           onClick={() => {
-            selectNew(item.article_id);
+            selectNew(item._id);
           }}
         >
           <div className="first-new-img">
@@ -66,7 +73,7 @@ function Home() {
         <div
           className="seconedNew-talkBar-item"
           onClick={() => {
-            selectNew(item.article_id);
+            selectNew(item._id);
           }}
         >
           <div className="seconedNew-talkBar-item-img">
@@ -87,7 +94,7 @@ function Home() {
         <li
           className="categories-new-item"
           onClick={() => {
-            selectNew(item.article_id);
+            selectNew(item._id);
           }}
         >
           <div className="categories-img">
@@ -109,7 +116,7 @@ function Home() {
         <li
           className="categories-new-item"
           onClick={() => {
-            selectNew(item.article_id);
+            selectNew(item._id);
           }}
         >
           <div className="categories-img">

@@ -1,6 +1,7 @@
 import { ActionTypes } from "../containt/action-types";
 const initialsState = {
-    accounts: []
+    accounts: [],
+    analytics:[]
 }
 export const adminReducer = (state = initialsState, { type, payload }) => {
     switch (type) {
@@ -18,6 +19,9 @@ export const adminReducer = (state = initialsState, { type, payload }) => {
             [...state.accounts] = listAccounts;
             
             return   {...state}
+        case ActionTypes.GET_LIST_ANALYTICS:
+            [...state.analytics] = payload
+            return {...state}
         default:
             return state
     }

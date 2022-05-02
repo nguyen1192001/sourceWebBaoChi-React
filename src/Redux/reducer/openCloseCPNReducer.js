@@ -15,6 +15,8 @@ const initialsState = {
   isChangStateIntroduce: false,
   isChangStateModelMissPass: false,
   isChangStateModelChangePass: false,
+  isChangeStateAdminAnalytics: false,
+  isChangeStateCheckNew:false
 };
 export const openCloseCPNReducer = (
   state = initialsState,
@@ -59,6 +61,8 @@ export const openCloseCPNReducer = (
       };
     case ActionTypes.CHANGE_STATE_INTRODUCE:
       return { ...state, isChangStateIntroduce: !state.isChangStateIntroduce };
+    case ActionTypes.CHANGE_STATE_CHECK_NEW:
+      return { ...state, isChangeStateCheckNew: !state.isChangeStateCheckNew };
     case ActionTypes.CHANGE_STATE_MODEL_MISS_PASS:
       return {
         ...state,
@@ -68,6 +72,11 @@ export const openCloseCPNReducer = (
       return {
         ...state,
         isChangStateModelChangePass: !state.isChangStateModelChangePass,
+      };
+    case ActionTypes.CHANGE_STATE_MODEL_ANALYTICS:
+      return {
+        ...state,
+        isChangeStateAdminAnalytics: !state.isChangeStateAdminAnalytics,
       };
     default:
       return state;

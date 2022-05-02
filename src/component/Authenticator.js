@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { getListAccount } from '../Redux/action/admin';
 
-import { changeStateAuthenticator, changeStateCreatNew, changeStateHome, changeStateModelMissPaass } from '../Redux/action/closeOpenComponet';
+
+import { changeStateAuthenticator, changeStateCreatNew, changeStateHome, changeStateModelMissPaass, changeStateNews } from '../Redux/action/closeOpenComponet';
 import { setUserSession } from '../Utils/Common';
 
 import { Api } from './Api';
@@ -18,6 +20,7 @@ function Authenticator() {
 
   let history = useHistory()
 
+
   const dispatch = useDispatch()
   const ChangeStateAuth = () => {
     dispatch(changeStateAuthenticator())
@@ -25,7 +28,7 @@ function Authenticator() {
 
   const [email, setEmail] = useState("")
   const [password, setPass] = useState("")
-  const [usename, setUserName] = useState("")
+  const [userName, setUserName] = useState("")
   const [full_name, setFullName] = useState("")
   const [avatar, setAvartar] = useState("")
 
@@ -54,14 +57,14 @@ function Authenticator() {
       alert("has mail in account ")
     }
     else {
-      const sefl_des = "user"
+      const self_des = "user"
       let config = {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }
 
-      let user = qs.stringify({ email, password, usename, full_name, avatar, sefl_des })
+      let user = qs.stringify({ email, password, userName, full_name, avatar, self_des})
       axios.post(Api().user, user, config)
         .then(() => {
           console.log("add succcccccccsessss")
@@ -82,18 +85,21 @@ function Authenticator() {
     if (itemExitMail) {
       if (itemExitMail.password === passLogin) {
         setUserSession(true, { user: itemExitMail })
-        if (itemExitMail.sefl_des == "user") {
+        if (itemExitMail.self_des == "user") {
           dispatch(changeStateAuthenticator())
           dispatch(changeStateHome())
         }
-        else if (itemExitMail.sefl_des == "journalist") {
+        else if (itemExitMail.self_des == "journalist") {
           dispatch(changeStateAuthenticator())
           dispatch(changeStateCreatNew())
+          dispatch(changeStateNews())
           dispatch(changeStateHome())
         }
-        else if (itemExitMail.sefl_des == "admin") {
-
+        else if (itemExitMail.self_des == "admin") {
+         
           history.push("/dmin")
+          dispatch(changeStateAuthenticator())
+          dispatch(changeStateHome())
           return;
 
         }

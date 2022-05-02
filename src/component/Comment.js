@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListAccount } from "../Redux/action/admin";
-import { getListComment } from "../Redux/action/articles";
+import { getListComment, pushCommentInList } from "../Redux/action/articles";
 import { getUser } from "../Utils/Common";
 import { Api } from "./Api";
 
@@ -16,17 +16,31 @@ function Comment(props) {
     const response = await axios.get(Api().user);
     dispatch(getListAccount(response.data));
   };
-
+  const fetchListComement = async () => {
+    const response = await axios.get(Api().commnet);
+    dispatch(
+      getListComment(response.data)
+    );
+  };
+  // chỗ này lấy id article xong so sánh rồi đẩy cmt ra 
+  
   useEffect(() => {
     fetchListUsers();
+    fetchListComement();
   }, []);
 
+ 
   const listComment = useSelector((state) => state.user.commnets);
-  const user = useSelector((state) => state.admin.accounts);
+  console.log(">>>>>>>list comment",listComment)
+  const newListCM = []
+  listComment.map((item) => item.article_Id == props.item ? newListCM.push(item):"")
+  console.log("new list comment",newListCM)
 
+  const user = useSelector((state) => state.admin.accounts);
+  
   const renderCommentUser = () =>
-    listComment.map((item) => {
-      const userComment = user.find((itemUs) => itemUs.user_id == item.user_id);
+  newListCM.length > 0 ? newListCM.map((item) => {
+      const userComment = user.find((itemUs) => itemUs._id == item.user_Id);
       return (
         <li className="item_comment">
           <div className="header_account-logo">
@@ -36,12 +50,13 @@ function Comment(props) {
               ""
             )}
           </div>
+          
           <div className="user_comment">
-            <span>{item.cmt_cotnent}</span>
+            <span>{userComment ? item.cmt_Content : null}</span>
           </div>
         </li>
       );
-    });
+    }):null;
 
   const [inputComment, setComment] = useState("");
 
@@ -54,11 +69,10 @@ function Comment(props) {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       };
-      const user_id = User.user.user_id;
-      console.log(" user ", User.user.user_id);
-      //   const article_id = listComment[0].article_id;
-      const article_id = props.item;
-      const cmt_cotnent = inputComment;
+      const user_Id = User.user._id;
+      const article_Id = props.item;
+      console.log(">>>>>..articles id",article_Id)
+      const cmt_Content = inputComment;
       var today = new Date();
       var date =
         today.getFullYear() +
@@ -69,27 +83,38 @@ function Comment(props) {
       var time =
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var dateTime = date + " " + time;
-      const create_time = dateTime;
+      const create_Time = dateTime;
 
-      dispatch(
-        getListComment({ user_id, article_id, cmt_cotnent, create_time })
-      );
+      
       let comment = qs.stringify({
-        user_id,
-        article_id,
-        cmt_cotnent,
-        create_time,
+        user_Id,
+        article_Id,
+        cmt_Content,
+        create_Time,
       });
+
 
       axios
         .post(Api().commnet, comment, config)
-        .then(() => {
-          console.log("add succcccccccsessss");
-          // alert("add comment success")
+        .then((res,req) => {
+          console.log("add succcccccccsessss",res);
+          if(res.data.error === true){
+            alert("hãy là người văn minh và bình luận văn minh")
+          }else{
+            let comment = {
+              user_Id,
+              article_Id,
+              cmt_Content,
+              create_Time,
+            };
+            dispatch(pushCommentInList(comment))
+          }
+          //  comment = JSON.parse(comment)\
         })
         .catch((err) => {
           console.log(err);
         });
+
     }
   };
 
@@ -104,7 +129,7 @@ function Comment(props) {
           {getUser() === null ? (
             <div className="header_account-logo">
               <img
-                src="https://scontent.fsgn5-4.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-5&_nc_sid=7206a8&_nc_ohc=n2xWL5_brgUAX_xR6Jr&_nc_ht=scontent.fsgn5-4.fna&oh=b38f503cc15456be6cefdf0c69967c18&oe=61C96378"
+                src="https://i.pinimg.com/564x/6b/d6/80/6bd680bf5bac75b36b377e02bdb96fd3.jpg"
                 alt="logoAvatar"
               />
             </div>

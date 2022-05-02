@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeStateHome } from "../../Redux/action/closeOpenComponet";
 import AccountManage from "./AccountManage";
+import AnalyticVistitor_Chart from "./AnalyticVistitor_Chart";
 import ArticlesManage from "./ArticlesManage";
 import CategoriesManage from "./CategoriesManage";
+import CheckNew from "./CheckNew";
 import HeaderAdmin from "./HeaderAdmin";
 import SideBar from "./SideBar";
+
 
 function Admin() {
   const stateArticleManage = useSelector(
@@ -17,6 +20,13 @@ function Admin() {
   const stateCategoriesManage = useSelector(
     (state) => state.opencloseCPN.isChangeStateAdminCategories
   );
+  const stateAnalyticsManage = useSelector(
+    (state) => state.opencloseCPN.isChangeStateAdminAnalytics
+  );
+  const stateNewCheckArticle = useSelector(
+    (state) => state.opencloseCPN.isChangeStateCheckNew
+  );
+ 
 
   const showFormArticlManage = () => {
     if (stateArticleManage) {
@@ -33,6 +43,17 @@ function Admin() {
       return <CategoriesManage />;
     }
   };
+  const showFromAnalytics = () =>{
+    if(stateAnalyticsManage){
+      return <AnalyticVistitor_Chart/>
+    }
+  }
+
+  const showFormNewCheck = () =>{
+    if(stateNewCheckArticle){
+      return <CheckNew/>
+    }
+  }
 
   return (
     <div id="container">
@@ -41,6 +62,8 @@ function Admin() {
       {showFormArticlManage()}
       {showFormAccountManage()}
       {showFormCategories()}
+      {showFromAnalytics()}
+      {showFormNewCheck()}
     </div>
   );
 }

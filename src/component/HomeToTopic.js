@@ -11,7 +11,7 @@ function HomeToTopic() {
     const dispatch = useDispatch()
 
     const fetchListNew = async () => {
-        const response = await axios.get(Api().articles)
+        const response = await axios.get(Api().articlesfromtexted)
         dispatch(getListNew(response.data))
     }
 
@@ -21,7 +21,7 @@ function HomeToTopic() {
     }, [])
 
     const fetchNew = async (idNew) => {
-        const response = await axios.get(Api().articles + "/" + idNew)
+        const response = await axios.get(Api().articlesfromtexted + "/" + idNew)
         dispatch(getNew(response.data))
     }
 

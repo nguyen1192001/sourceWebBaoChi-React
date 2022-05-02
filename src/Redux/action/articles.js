@@ -6,6 +6,12 @@ export const getListNew = (articles)=>{
         payload:articles
     }
 }
+export const updateListNew = (id) => {
+    return{
+        type:ActionTypes.UPDATE_LIST_ARTICLES,
+        payload:id
+    }
+}
 export const getCodeMissPass = (code)=>{
     return{
         type:ActionTypes.CODE_MISS_PASSWORD,
@@ -16,6 +22,13 @@ export const getListComment = (comments)=>{
     return{
         type:ActionTypes.GET_LIST_COMMNENT,
         payload:comments
+    }
+}
+
+export const pushCommentInList = (comment) =>{
+    return {
+        type:ActionTypes.PUSH_COMMENT_INLISTCOMMENT,
+        payload:comment
     }
 }
 

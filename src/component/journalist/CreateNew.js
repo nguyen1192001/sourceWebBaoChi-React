@@ -3,16 +3,17 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../Redux/action/categories';
 import { Api } from '../Api';
+import { getUser } from '../../Utils/Common';
 
 
 
 const qs = require('qs')
 function CreateNew() {
     const dispatch = useDispatch()
+    const user = getUser()
 
     const fetchCategories = async () => {
         const response = await axios.get(Api().categories)
-        console.log(response.data)
         dispatch(getCategories(response.data))
     }
 
@@ -27,47 +28,49 @@ function CreateNew() {
     const [textbody, setTextbody] = useState("")
     const [image, setImage] = useState("")
 
-    // const resertInput = () =>{
-    //     setCateName('')
-    //     setImage('')
-    //     setTextbody('')
-    //     setTitle('')
-    // }
+
 
     const login = () => {
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         var dateTime = date+' '+time;
-        const create_time = dateTime // chỗ này chưa ra được ngày tháng
-        const user_id = 2
-        const itemcate = categoties.find(item => item.cate_name === cateName)
-        const cate_id = itemcate.cate_id
+        const create_time = dateTime
+       
+        const itemcate = categoties.find(item => item.cate_Name === cateName)
 
         let config = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }
+        const user_Id = user.user._id
+        const cate_Id = itemcate._id
 
-        let article = qs.stringify({ title, textbody, create_time, image, user_id, cate_id })
+        let article = qs.stringify({ title, textbody, create_time, image, user_Id, cate_Id })
+
+        console.log(">>>>>>>>..",article)
+
         axios.post(Api().articles, article, config)
             .then(() => {
+                
                 console.log("add succcccccccsessss")
                 alert("add news success")
-                // resertInput()
+            
+                
             })
             .catch((err) => {
-                console.log(err)
+                console.log("hông add được bé ơi",err)
             })
             console.log(article)
+    
     }
 
     console.log("categories>>>>>>>>",categoties)
 
     const renderCategories = categoties.map((item) => {
         return (
-            <option value={item.cate_name} />
+            <option value={item.cate_Name} />
         )
     })
     return (

@@ -52,6 +52,12 @@ export const changeStateaAdminCategories = (state) => {
     payload: state,
   };
 };
+export const changeStateaAdminAnalytics = (state) => {
+  return {
+    type: ActionTypes.CHANGE_STATE_MODEL_ANALYTICS,
+    payload: state,
+  };
+};
 export const changeStateModelMenu = () => {
   return {
     type: ActionTypes.CHANGE_STATE_MODEL_MENU,
@@ -77,3 +83,9 @@ export const changeStateModeChangePass = () => {
     type: ActionTypes.CHANGE_STATE_MODEL_CHANGE_PASS,
   };
 };
+export const changeStateCheckNew = () => {
+  return {
+    type: ActionTypes.CHANGE_STATE_CHECK_NEW,
+  };
+};
+

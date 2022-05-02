@@ -85,7 +85,7 @@ function Header() {
 
         {
           getUser() === null ? (<div className="header_account-logo">
-            <img src="https://scontent.fsgn5-4.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-5&_nc_sid=7206a8&_nc_ohc=n2xWL5_brgUAX_xR6Jr&_nc_ht=scontent.fsgn5-4.fna&oh=b38f503cc15456be6cefdf0c69967c18&oe=61C96378" alt="logoAvatar" />
+            <img src="https://i.pinimg.com/564x/6b/d6/80/6bd680bf5bac75b36b377e02bdb96fd3.jpg" alt="logoAvatar" />
           </div>) : (<div className="header_account-logo">
             <img src={User.user.avatar} alt="logoAvatar" />
           </div>)

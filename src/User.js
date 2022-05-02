@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   BrowserRouter as Router
 } from "react-router-dom";
@@ -10,8 +10,11 @@ import Header from "./component/Header";
 import Home from "./component/Home";
 import HomeToTopic from "./component/HomeToTopic";
 import Introduce from "./component/Introduce";
-import CreateNew from "./component/journalist/CreateNew";
+// import CreateNew from "./component/journalist/CreateNew";
+import TextEditor from "./component/journalist/TextEditor";
 import New from "./component/New";
+import NewFromTextED from "./component/NewFromTextED";
+
 import Taskbar from "./component/Taskbar";
 import { getListAccount } from "./Redux/action/admin";
 import { getListNew } from "./Redux/action/articles";
@@ -21,8 +24,8 @@ function User() {
 
   let dispatch = useDispatch();
 
-    const stateHome = useSelector(state => state.opencloseCPN.isChangStateHome)
-    const stateHomeToTopic = useSelector(state => state.opencloseCPN.isChangStateHomeToTopic)
+  const stateHome = useSelector(state => state.opencloseCPN.isChangStateHome)
+  const stateHomeToTopic = useSelector(state => state.opencloseCPN.isChangStateHomeToTopic)
   const stateNew = useSelector(state => state.opencloseCPN.isChangStateNew)
   const stateAuth = useSelector(state => state.opencloseCPN.isChangeStateAuth)
   const stateCreatNew = useSelector(state => state.opencloseCPN.isChangeStateCreatNew)
@@ -31,75 +34,76 @@ function User() {
   const fetchListNew = async () => {
     const response = await axios.get(Api().articles)
     dispatch(getListNew(response.data))
-}
-
-const fetchListUsers = async () => {
-  const response = await axios.get(Api().user)
-  dispatch(getListAccount(response.data))
-}
-
-
-
-const fetchCategories = async () => {
-  const response = await axios.get(Api().categories)
-  console.log(response.data)
-  dispatch(getCategories(response.data))
-}
-
-
-useEffect(()=>{
-  fetchListNew()
-  fetchCategories()
-  fetchListUsers()
-
-},[])
-
-  const showFormHome = ()=>{
-    if(stateHome){
-      return <Home/>
-    }
-  }
-  const showFormNew = ()=>{
-    if(stateNew){
-      return <New/>
-    }
-  }
-  const showFormAuth = ()=>{
-    if(stateAuth){
-      return <Authenticator/>
-    }
-  }
-  const showFormHomeToTopic = ()=>{
-    if(stateHomeToTopic){
-      return <HomeToTopic/>
-    }
   }
 
-  const showFormCreatNew = ()=>{
-    if(stateCreatNew){
-      return <CreateNew/>
+  const fetchListUsers = async () => {
+    const response = await axios.get(Api().user)
+    dispatch(getListAccount(response.data))
+  }
+
+
+
+  const fetchCategories = async () => {
+    const response = await axios.get(Api().categories)
+    console.log(response.data)
+    dispatch(getCategories(response.data))
+  }
+
+
+  useEffect(() => {
+    fetchListNew()
+    fetchCategories()
+    fetchListUsers()
+
+  }, [])
+
+  const showFormHome = () => {
+    if (stateHome) {
+      return <Home />
     }
   }
-  const showFormIntroduce = ()=>{
-    if(stateIntroduce){
-      return <Introduce/>
+  const showFormNew = () => {
+    if (stateNew) {
+      console.log("show form text")
+      return <NewFromTextED/>
+    }
+  }
+  const showFormAuth = () => {
+    if (stateAuth) {
+      return <Authenticator />
+    }
+  }
+  const showFormHomeToTopic = () => {
+    if (stateHomeToTopic) {
+      return <HomeToTopic />
     }
   }
 
-    return (
-        <>
-        <Header/>
-        <Taskbar/>
-        {showFormCreatNew()}
-       {showFormHome()}
-        {showFormNew()}
-        {showFormAuth()}
-        {showFormHomeToTopic()}
-        {showFormIntroduce()}
-       
-        </>
-      
-    );
+  const showFormCreatNew = () => {
+    if (stateCreatNew) {
+      return <TextEditor />
+    }
+  }
+  const showFormIntroduce = () => {
+    if (stateIntroduce) {
+      return <Introduce />
+    }
+  }
+
+  return (
+    <>
+      <Header />
+      <Taskbar />
+      {showFormCreatNew()}
+      {showFormHome()}
+      {showFormNew()}
+      {showFormAuth()}
+      {showFormHomeToTopic()}
+      {showFormIntroduce()}
+
+    </>
+
+  );
 }
 
 export default User

@@ -29,7 +29,7 @@ function Taskbar() {
             <ul className="nav_ul">
               <li className="nav_ul_li">
                 <div className="bm_FG" as="/">
-                  <a href="/" className><span>Nóng</span></a>
+                  <a href="/" ><span>Nóng</span></a>
                 </div>
               </li>
               <li className="nav_ul_li" onClick = {clickIntroduce}>
