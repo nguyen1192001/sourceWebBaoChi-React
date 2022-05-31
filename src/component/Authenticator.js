@@ -48,11 +48,8 @@ function Authenticator() {
 
   const register = async () => {
     const response = await axios.get(Api().user)
-
-
-    const itemExitMail = response.data.find(item => item.email == email)
-
-
+    console.log(">>>>>>>",response)
+    const itemExitMail = response.data.find(item => item.email === email)
     if (itemExitMail) {
       alert("has mail in account ")
     }
@@ -65,7 +62,8 @@ function Authenticator() {
       }
 
       let user = qs.stringify({ email, password, userName, full_name, avatar, self_des})
-      axios.post(Api().user, user, config)
+      // let user = { email, password, userName, full_name, avatar, self_des}
+      axios.post(Api().user, user,config)
         .then(() => {
           console.log("add succcccccccsessss")
           resertInput()
@@ -82,20 +80,22 @@ function Authenticator() {
     console.log("responce login", response.data)
     dispatch(getListAccount(response.data))
     const itemExitMail = response.data.find(item => item.email === emailLogin)
+
+    console.log("itemExitMail",itemExitMail)
     if (itemExitMail) {
-      if (itemExitMail.password === passLogin) {
+      if (itemExitMail.passwordUser === passLogin) {
         setUserSession(true, { user: itemExitMail })
-        if (itemExitMail.self_des == "user") {
+        if (itemExitMail.self_des === "user") {
           dispatch(changeStateAuthenticator())
           dispatch(changeStateHome())
         }
-        else if (itemExitMail.self_des == "journalist") {
+        else if (itemExitMail.self_des === "journalist") {
           dispatch(changeStateAuthenticator())
           dispatch(changeStateCreatNew())
           dispatch(changeStateNews())
           dispatch(changeStateHome())
         }
-        else if (itemExitMail.self_des == "admin") {
+        else if (itemExitMail.self_des === "admin") {
          
           history.push("/dmin")
           dispatch(changeStateAuthenticator())
@@ -104,6 +104,14 @@ function Authenticator() {
 
         }
 
+        else if (itemExitMail.self_des === "receive") {
+         
+          history.push("/advertising")
+          dispatch(changeStateAuthenticator())
+          dispatch(changeStateHome())
+          return;
+
+        }
       } else {
         alert("pass wrong")
       }

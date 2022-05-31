@@ -35,7 +35,6 @@ export default function CategoriesManage() {
   const renderCategories = cateRender.map((item) => {
     return (
       <>
-        {console.log("item", item)}
         <CateItem item={item} />
       </>
     );
@@ -44,9 +43,7 @@ export default function CategoriesManage() {
   const reduced = () => {
     if (page < 2) {
       setPage(1);
-      console.log("page line 25", page);
     } else {
-      console.log("page line 27", page);
       setPage(page - 1);
     }
     setCateRender(categories.slice(start, end));

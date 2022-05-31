@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   changeStateaAdminAccount,
   changeStateaAdminArticles,
@@ -7,42 +8,80 @@ import {
   changeStateaAdminAnalytics
 } from "../../Redux/action/closeOpenComponet";
 
+
 function SideBar() {
+  const history = useHistory()
   const dispatch = useDispatch();
-  // const stateArticleManage = useSelector(
-  //   (state) => state.opencloseCPN.isChangeStateAdminArticles
-  // );
-  // const stateAccountManage = useSelector(
-  //   (state) => state.opencloseCPN.isChangeStateAdminAccounts
-  // );
-  // const stateCategoriesManage = useSelector(
-  //   (state) => state.opencloseCPN.isChangeStateAdminCategories
-  // );
+  const stateArticleManage = useSelector(
+    (state) => state.opencloseCPN.isChangeStateAdminArticles
+  );
+  const stateAccountManage = useSelector(
+    (state) => state.opencloseCPN.isChangeStateAdminAccounts
+  );
+  const stateCategoriesManage = useSelector(
+    (state) => state.opencloseCPN.isChangeStateAdminCategories
+  );
+  const stateAnalysticManage = useSelector(
+    (state) => state.opencloseCPN.isChangeStateAdminAnalytics
+  );
+
 
   const changeStateArtices = () => {
-    dispatch(changeStateaAdminAnalytics(false))
-    dispatch(changeStateaAdminAccount(false));
-    dispatch(changeStateaAdminCategories(false));
+    if(stateAccountManage){
+      dispatch(changeStateaAdminAccount());
+    }
+    if(stateCategoriesManage){
+     
+      dispatch(changeStateaAdminCategories());
+    }
+    if(stateAnalysticManage){
+     
+      dispatch(changeStateaAdminAnalytics())
+    }
     dispatch(changeStateaAdminArticles(true));
   };
 
   const changeStateAccount = () => {
-    dispatch(changeStateaAdminAnalytics(false))
-    dispatch(changeStateaAdminArticles(false));
-    dispatch(changeStateaAdminCategories(false));
+    if(stateArticleManage){
+      dispatch(changeStateaAdminArticles());
+    }
+    if(stateCategoriesManage){
+     
+      dispatch(changeStateaAdminCategories());
+    }
+    if(stateAnalysticManage){
+     
+      dispatch(changeStateaAdminAnalytics())
+    }
     dispatch(changeStateaAdminAccount(true));
   };
   const changeStateCategories = () => {
-    dispatch(changeStateaAdminAnalytics(false))
-    dispatch(changeStateaAdminAccount(false));
-    dispatch(changeStateaAdminArticles(false));
+    if(stateArticleManage){
+      dispatch(changeStateaAdminArticles());
+    }
+    if(stateAccountManage){
+     
+      dispatch(changeStateaAdminAccount());
+    }
+    if(stateAnalysticManage){
+     
+      dispatch(changeStateaAdminAnalytics())
+    }
     dispatch(changeStateaAdminCategories(true));
   };
   const changeStateAnalytics = () =>{
-    dispatch(changeStateaAdminAccount(false));
-    dispatch(changeStateaAdminArticles(false));
-    dispatch(changeStateaAdminCategories(false));
-    dispatch(changeStateaAdminAnalytics(true));
+    if(stateArticleManage){
+      dispatch(changeStateaAdminArticles());
+    }
+    if(stateAccountManage){
+     
+      dispatch(changeStateaAdminAccount());
+    }
+    if(stateCategoriesManage){
+     
+      dispatch(changeStateaAdminCategories());
+    }
+    dispatch(changeStateaAdminAnalytics(true))
   }
 
   return (

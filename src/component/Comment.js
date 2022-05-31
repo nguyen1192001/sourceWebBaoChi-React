@@ -6,9 +6,10 @@ import { getListComment, pushCommentInList } from "../Redux/action/articles";
 import { getUser } from "../Utils/Common";
 import { Api } from "./Api";
 
-const qs = require("qs");
-
 function Comment(props) {
+  const news = useSelector((state) => state.user.article);
+ 
+
   const dispatch = useDispatch();
   const User = getUser();
 
@@ -17,61 +18,58 @@ function Comment(props) {
     dispatch(getListAccount(response.data));
   };
   const fetchListComement = async () => {
-    const response = await axios.get(Api().commnet);
-    dispatch(
-      getListComment(response.data)
-    );
+    console.log("props",props.item)
+    console.log("new",news)
+    if(news.articleId){
+      const response =  await axios.get(Api().comment,{params:{userId:User.user.userId , articleId:news.articleId}});
+     console.log("response",response)
+     dispatch(getListComment(response.data));
+    }
   };
-  // chỗ này lấy id article xong so sánh rồi đẩy cmt ra 
-  
+  // chỗ này lấy id article xong so sánh rồi đẩy cmt ra
+
   useEffect(() => {
     fetchListUsers();
     fetchListComement();
-  }, []);
+  }, [news]);
 
- 
   const listComment = useSelector((state) => state.user.commnets);
-  console.log(">>>>>>>list comment",listComment)
-  const newListCM = []
-  listComment.map((item) => item.article_Id == props.item ? newListCM.push(item):"")
-  console.log("new list comment",newListCM)
 
-  const user = useSelector((state) => state.admin.accounts);
-  
+  const usercommnet = useSelector((state) => state.admin.accounts);
   const renderCommentUser = () =>
-  newListCM.length > 0 ? newListCM.map((item) => {
-      const userComment = user.find((itemUs) => itemUs._id == item.user_Id);
-      return (
-        <li className="item_comment">
-          <div className="header_account-logo">
-            {userComment ? (
-              <img src={userComment.avatar} alt="logoAvatar" />
-            ) : (
-              ""
-            )}
-          </div>
-          
-          <div className="user_comment">
-            <span>{userComment ? item.cmt_Content : null}</span>
-          </div>
-        </li>
-      );
-    }):null;
+  listComment && listComment.map((item) => {
+      const userComment = usercommnet.filter(US => {
+        return US.userId === item.userId
+      })
+      console.log("userComment after filter",userComment)
+          return (
+            
+            <li className="item_comment">
+              <div className="header_account-logo">
+                {User ? (
+                  <img src={userComment[0].avatar} alt="logoAvatar" />
+                ) : (
+                  ""
+                )}
+              </div>
+
+              <div className="user_comment">
+                <span>{User ? item.cmt_content : null}</span>
+              </div>
+            </li>
+          );
+        })
+     
 
   const [inputComment, setComment] = useState("");
 
   const clickCommet = () => {
-    if (getUser() === null) {
+    if (User === null) {
       alert("bạn cần đăng nhập để có thể bình luận !!!");
     } else {
-      let config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      };
-      const user_Id = User.user._id;
-      const article_Id = props.item;
-      console.log(">>>>>..articles id",article_Id)
+      const user_Id = User && User.user.userId;
+
+      const article_Id = props.item.articleId;
       const cmt_Content = inputComment;
       var today = new Date();
       var date =
@@ -84,39 +82,26 @@ function Comment(props) {
         today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var dateTime = date + " " + time;
       const create_Time = dateTime;
-
-      
-      let comment = qs.stringify({
-        user_Id,
-        article_Id,
-        cmt_Content,
-        create_Time,
-      });
-
-
+      let dataCommentt = {
+        user_Id,article_Id,cmt_Content,create_Time
+      }
       axios
-        .post(Api().commnet, comment, config)
-        .then((res,req) => {
-          console.log("add succcccccccsessss",res);
-          if(res.data.error === true){
-            alert("hãy là người văn minh và bình luận văn minh")
-          }else{
-            let comment = {
-              user_Id,
-              article_Id,
-              cmt_Content,
-              create_Time,
-            };
-            dispatch(pushCommentInList(comment))
+        .post(Api().comment,dataCommentt)
+        .then((result) => {
+          console.log("add succcccccccsessss", result);
+          if (result.data.error) {
+            alert("hãy là người văn minh và bình luận văn minh");
+          } else {
+            dispatch(pushCommentInList(dataCommentt));
           }
-          //  comment = JSON.parse(comment)\
         })
         .catch((err) => {
           console.log(err);
         });
-
     }
   };
+
+  console.log("userrrrrr",User)
 
   return (
     <div className="article_comment">

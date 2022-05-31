@@ -38,10 +38,9 @@ export default function CateItem(props) {
   };
 
   const updateCate = (id) => {
-    const updateCate = listCate.find((item) => item._id === id);
-    updateCate.cate_Name = cateChange;
+    console.log("id",id)
     axios
-      .post(Api().categories + "/" + id, updateCate)
+      .put(Api().categories + "/" ,{cateName : cateChange , cateId : id})
       .then(() => {
         setSateUpdate(false);
         dispatch(updateCategories(updateCate));
@@ -61,7 +60,7 @@ export default function CateItem(props) {
           <>
             <input
               onChange={handleChange}
-              placeholder={"update : " + props.item.cate_name}
+              placeholder={"update : " + props.item.cate_Name}
             />
             <div
               style={{
@@ -73,7 +72,7 @@ export default function CateItem(props) {
               <button
                 className="btn_update"
                 onClick={() => {
-                  updateCate(_id);
+                  updateCate(props.item.cateId);
                 }}
               >
                 cập nhật
@@ -86,7 +85,7 @@ export default function CateItem(props) {
       <td
         className="adminEdit"
         onClick={() => {
-          deleteCate(props.item._id);
+          deleteCate(props.item.cateId);
         }}
       >
         DELETE

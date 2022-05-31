@@ -7,85 +7,70 @@ import { Api } from '../Api';
 const qs = require('qs')
 
 function AccountItem(props) {
+    console.log(">>>>props",props)
     const dispatch = useDispatch()
-
     const fetchListUsers = async () => {
         const response = await axios.get(Api().user)
         dispatch(getListAccount(response.data))
     }
-  
+    const [stateCbb, setStateCombobox] = useState(false)
+    const [changeUser, setSelfDUser] = useState("")
 
-    const [stateCbb,setStateCombobox]=useState(false)
-    const [changeUser,setSelfDUser] = useState("")
-
-    
 
     const accounts = useSelector((state) => state.admin.accounts)
-    const deleteAccount =  (idUser) => {
-        
-        axios.delete(Api().user + "/" +idUser)
-        .then(() => {
-            console.log("delete succcccccccsessss")
-            dispatch(removeAccount(idUser))
-            alert("delete item success")
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+    const deleteAccount = (idUser) => {
+
+        axios.delete(Api().user + "/" + idUser)
+            .then(() => {
+                console.log("delete succcccccccsessss")
+                dispatch(removeAccount(idUser))
+                alert("delete item success")
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
     useEffect(() => {
         fetchListUsers()
         console.log("render userfect statecbb")
     }, [stateCbb])
-    const updateAccount = (id) =>{
-        const userChange = accounts.find(item => item._id === id)
-        userChange.self_des = changeUser
-       
-        let config = {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          }
-       
-        let user = qs.stringify({user_id: userChange.user_id, useName: userChange.useName, email: userChange.email, password: userChange.password, full_name: userChange.full_name,avatar:userChange.avatar,self_des:userChange.self_des})
-      
-        axios.post(Api().user + "/" + id,user,config)
-        .then(() => {
-            console.log("update succcccccccsessss")
-            alert("update item success")
-            setStateCombobox(false)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-        
+    const handeChangeRoleUser = (e)=>{
+        setSelfDUser(e.target.value)
     }
-    
+    const updateAccount = async (id) => {
+        try {
+           let result =  await axios.put(Api().user,{id,changeUser})
+           setStateCombobox(!stateCbb)
+            console.log('result',result)
+        } catch (error) {
+            console.log("error",error)
+        }
+    }
 
-    return(
+
+    return (
         <tr>
             {console.log("rerender account item", props.item.self_des)}
-        <td>{props.item.email}</td>
-        <td>{props.item.full_name}</td>
-        <td>
-            {
-                stateCbb === true ? (<div className="journalist_topic adminChangeSelfD">
-                <div className="menu">
-                    <input list="browsers" name="myBrowser"  onChange={(e) => { setSelfDUser(e.target.value) }} />
-                    <datalist id="browsers">
-                        <option value="user" />
-                        <option value="journalist" />
-                        <option value="admin" />
-                    </datalist>
-                </div>
-                <button onClick = {()=>{updateAccount(props.item._id)}}>OK</button>
-            </div>) : (props.item.self_des)
-            }
-        </td>
-       
-        <td className="adminEdit" onClick = {()=>{deleteAccount(props.item._id)}}>DELETE</td>
-        <td className="adminEdit"  onClick = {()=>{setStateCombobox(!stateCbb)}}>UPDATE</td>
-    </tr>
+            <td>{props.item.email}</td>
+            <td>{props.item.full_name}</td>
+            <td>
+                {
+                    stateCbb === true ? <>
+                        <select onChange={handeChangeRoleUser} className="journalist_topic adminChangeSelfD">
+                            <option value="user" >user</option>
+                            <option value="journalist" >journalist</option>
+                            <option value="admin" >admin</option>
+                            <option value="receive" >receive</option>
+                        </select>
+                        <button onClick={() => { updateAccount(props.item.userId) }}>OK</button>
+                    </>
+                        : (props.item.self_des)
+                }
+            </td>
+
+            <td className="adminEdit" onClick={() => { deleteAccount(props.item.userId) }}>DELETE</td>
+            <td className="adminEdit" onClick={() => { setStateCombobox(!stateCbb) }}>UPDATE</td>
+        </tr>
     )
 
 }

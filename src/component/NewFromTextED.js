@@ -7,7 +7,7 @@ import Comment from "./Comment";
 
 function NewFromTextED() {
   const news = useSelector((state) => state.user.article);
-  console.log(">>>>>.... articles", news)
+  console.log(">>>>>.... articlesnewFromtextED", news)
   const categoties = useSelector((state) => state.journalist.categoties);
 
   let nameCate = categoties.find((item) => item.cate_id == news.cate_id);
@@ -23,10 +23,14 @@ function NewFromTextED() {
       <div className="article_time">
         <span>{news.create_time}</span>
       </div>
+      <div className="article_title">
+        <span>{news.title}</span>
+      </div>
+      
       <div className="article_content">
        
       </div>
-      <Comment item={news._id} />
+      <Comment item={news} />
     </div>
 
 

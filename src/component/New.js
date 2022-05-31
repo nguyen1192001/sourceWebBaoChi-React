@@ -34,7 +34,7 @@ function New() {
       <div className="article_author">
         <span>thao nguyen / tong hop</span>
       </div>
-      <Comment item={news._id} />
+      <Comment item={news} />
     </div>
   );
 }

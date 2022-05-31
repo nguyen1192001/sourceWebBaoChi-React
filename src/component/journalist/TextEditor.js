@@ -44,8 +44,8 @@ function TextEditor() {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }
-        const user_Id = user.user._id
-        const cate_Id = itemcate._id
+        const user_Id = user.user.userId
+        const cate_Id = itemcate.cateId
         const check = 1
 
         let article = qs.stringify({ check,title,image,content, create_time, user_Id, cate_Id })

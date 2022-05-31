@@ -49,7 +49,7 @@ function CreateNew() {
 
         let article = qs.stringify({ title, textbody, create_time, image, user_Id, cate_Id })
 
-        console.log(">>>>>>>>..",article)
+
 
         axios.post(Api().articles, article, config)
             .then(() => {
@@ -96,8 +96,7 @@ function CreateNew() {
                     <input type="text" defaultValue="sumary" onChange={(e) => { setEmail(e.target.value) }} />
                 </div> */}
                 <div className="journalist_title">
-                    <input type="text" defaultValue="images" onChange={(e) => { setImage(e.target.value) }} />
-                    
+                    <input type="text" defaultValue="images" onChange={(e) => { setImage(e.target.value) }} />    
                 </div>
                 {/* <div className="journalist_title_file">
                     <input type="file" onChange={(e) => { setImage(e.target.value) }} />

@@ -10,7 +10,6 @@ const qs = require("qs");
 export default function NewComment(props) {
   const dispatch = useDispatch();
   const User = getUser();
-
   const fetchListUsers = async () => {
     const response = await axios.get(Api().user);
     dispatch(getListAccount(response.data));
@@ -45,6 +44,9 @@ export default function NewComment(props) {
     fetchListUsers();
   }, []);
   const renderCommentUser = listMixComment.map((item) => {
+
+    console.log("usercommnet>>.",item)
+    
     return (
       <>
         <div className="comment__old flex">
@@ -110,7 +112,7 @@ export default function NewComment(props) {
         });
     }
   };
-
+console.log(">>>>>.user",User)
   return (
     <div className="comment">
       <h3>BÌNH LUẬN</h3>
@@ -119,7 +121,7 @@ export default function NewComment(props) {
         <div className="comment__user__avartar">
           {getUser() === null ? (
             <img
-              src="./image/z2937267975608_6cf24cf7ee2240c7c4bb4325ba217a8a.jpg"
+              src="https://i.pinimg.com/originals/e5/8f/3e/e58f3e6bef2cfe4a1bd29a79c0cb0634.jpg"
               alt
             />
           ) : (

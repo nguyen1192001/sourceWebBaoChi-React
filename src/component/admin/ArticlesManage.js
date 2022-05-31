@@ -4,30 +4,41 @@ import { getListNew, getNew, removeArticle } from '../../Redux/action/articles';
 import { useState } from 'react';
 import axios from 'axios';
 import { Api } from '../Api';
+import { useHistory } from 'react-router-dom';
 import { changeStateaAdminAnalytics, changeStateaAdminArticles, changeStateCheckNew } from '../../Redux/action/closeOpenComponet';
 
 
 function ArticlesManage() {
+    const history = useHistory()
     let [page , setPage] = useState(1)
 
     const dispatch = useDispatch()
     const news = useSelector((state) => state.user.articles)
     console.log(">>>>.new length",news)
     const removeArticleManage = (id) => {
-        
+        axios.delete(Api().articlesfromtexted + "/" + id)
+        .then(() =>{
+            alert("delete success!!!")
+            dispatch(removeArticle(news.articleId))
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+        // alert("jbfjd")
     }
 
-    const fetchNew = async (idNew) => {
-        const response = await axios.get(Api().articlesfromtexted + "/" + idNew);
-        console.log(">>>>>>>..",response.data)
-        dispatch(getNew(response.data))
-      };
+    // const fetchNew = async (idNew) => {
+    //     const response = await axios.get(Api().articlesfromtexted + "/" + idNew);
+    //     console.log(">>>>>>>..data checknew",response.data)
+    //     dispatch(getNew(response.data[0]))
+    //   };
 
     const checkNew = (id) => {
-        fetchNew(id)
-        dispatch(changeStateaAdminArticles())
-        dispatch(changeStateaAdminAnalytics())
-        dispatch(changeStateCheckNew())
+        history.push("/dmin/checkNew/"+id)
+        // fetchNew(id)
+        // dispatch(changeStateaAdminArticles())
+        // dispatch(changeStateaAdminAnalytics())
+        // dispatch(changeStateCheckNew())
     }
 
     const fetchListNew = async () => {
@@ -56,6 +67,7 @@ function ArticlesManage() {
              return item.title.toLowerCase().indexOf(value.toLowerCase()) !== -1
          })
          renderList == null ? setNewsRender(newRender): setNewsRender(renderList)
+         
     }
 
 
@@ -89,15 +101,16 @@ function ArticlesManage() {
    
     console.log(">>>>>.news",news)
     const renderArticleManage = newRender.map((item) => {
+        console.log("item",item)
         
         return (
             <tr>
                 <td>{item.title}</td>
-                <td>{item.user_Id}</td>
-                <td>{item.cate_Id}</td>
-                <td>{item.check}</td>
-                {item.check == 1 ? (<th className="adminEdit" onClick={() => { checkNew(item._id) }}>CHECK</th>): ""}
-                {item.check == 0 ? (<th className="adminEdit Delete" onClick={() => { removeArticleManage(item._id) }}>DELETE</th>) : ""}
+                <td>{item.userId}</td>
+                <td>{item.cateId}</td>
+                <td>{item.checknew}</td>
+                {item.checknew == 1 ? (<th className="adminEdit" onClick={() => { checkNew(item.articleId) }}>CHECK</th>): ""}
+                {item.checknew == 0 ? (<th className="adminEdit Delete" onClick={() => { removeArticleManage(item.articleId) }}>DELETE</th>) : ""}
 
             </tr>
         )

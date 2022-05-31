@@ -15,14 +15,14 @@ function AnalyticVistitor_Chart() {
     let response = await axios.get(Api().analytics);
     let datafromAPI = response.data
 
-    console.log(">>>>>>>.", datafromAPI)
+    console.log(">>>>>>>.datafromAPI", datafromAPI)
     datafromAPI.forEach(element => {
-      const date = element.date
+      const date = element.dateAnalyst
       const quantity = element.quantity
       analytics.push({ date, quantity })
     });
 
-    console.log(analytics)
+    console.log(">>>>>>>>>analytics",analytics)
     dispatch(getListAnalytics(analytics));
   };
 
@@ -53,7 +53,7 @@ function AnalyticVistitor_Chart() {
   }
 
   const fetchListComement = async () => {
-    const response = await axios.get(Api().commnet);
+    const response = await axios.get(Api().allcommnet);
     dispatch(
       getListComment(response.data)
     );
@@ -69,14 +69,14 @@ function AnalyticVistitor_Chart() {
 
   for (let j = 0; j < listComment.length;) {
     for (let i = j + 1; i < listComment.length; i++) {
-      if (listComment[j].article_Id == listComment[i].article_Id) {
+      if (listComment[j].articleId == listComment[i].articleId) {
         count = count + 1
       }
     }
-    let article_ID = listComment[0].article_Id
+    let article_ID = listComment[0].articleId
     result.push({ article_ID, count })
     listComment = listComment.filter((item) => {
-      return item.article_Id !== listComment[0].article_Id
+      return item.articleId !== listComment[0].articleId
     })
     count = 1
     j = 0
@@ -149,6 +149,7 @@ function AnalyticVistitor_Chart() {
   resultAnalytic2.forEach(item => idArticles3.push(item.user_Id))
   let countDtPl3 = []
   resultAnalytic2.forEach(item => countDtPl3.push(item.countAnalytic2))
+
   let dataPayLoad3
   dataPayLoad3 = {
     options: {
@@ -181,17 +182,17 @@ function AnalyticVistitor_Chart() {
           <div className='my-grid'>
             <div className='my-row'>
 
-              <div className='col-2'>
+              <div className='col-6'>
                 <h5>Analytics visitor</h5>
                 <Chart
                   options={dataPayload.options}
                   series={dataPayload.series}
-                  type="area"
+                  type="bar"
                 // width="500"
                 />
               </div>
 
-              <div className='col-2'>
+              <div className='col-6'>
                 <h5>Analytics comment</h5>
                 <Chart
                   options={dataPayload2.options}

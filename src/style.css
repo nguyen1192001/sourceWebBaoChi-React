@@ -5,6 +5,9 @@
   padding: 0;
   box-sizing: inherit;
 }
+.thaonguyen{
+  overflow-x: hidden;
+}
 :root {
   --primary-color: #f3dcd6;
 }
@@ -151,6 +154,12 @@ body {
   display: flex;
   justify-content: space-around;
 }
+.agreementBtn{
+  font-size: 2rem;
+  width: 10rem;
+  border: none;
+  background-color: var(--primary-color);
+}
 .groupBtn button{
   background-color: #fff;
 }
@@ -212,10 +221,24 @@ li.nav_ul_li.more {
 
 /* -------------------container */
 .my-container {
-  max-width: 60.625rem;
+  /* max-width: 60.625rem; */
   margin: 0 auto;
-  padding-left: 8rem;
+  /* padding-left: 8rem; */
+  padding: 1rem;
   font-family: Arial, Helvetica, sans-serif;
+}
+/* .my-container img{
+  width: 50%;
+ margin-left: 25%;
+} */
+.box-Adverstiment{
+  display: block;
+    width: 18rem;
+    margin-top: 1rem;
+    border: solid 1px #ddd;
+}
+.box-Adverstiment img{
+  width: 100%;
 }
 .chart-container{
   margin-left: 20rem;
@@ -244,10 +267,18 @@ li.nav_ul_li.more {
   width: 33.33%;
   padding: 1rem;
 }
-.col-2 {
-  width: 45%;
-  padding: 1rem;
+.col-10{
+  width: 80%;
+  margin-left: 2rem;
 }
+.col-2 {
+  width: 20%;
+}
+.col-6 {
+  width: 50%;
+}
+
+
 
 .categories-new-item {
   display: flex;
@@ -628,6 +659,11 @@ ul#nav li a:hover {
   padding: 15px;
 }
 
+.boxAd{
+  width: auto;
+  height: 100%;
+}
+
 .contentadmin p {
   color: #424242;
   fonnt-size: 0.8em;
@@ -645,6 +681,10 @@ div#box .box-panel {
   border-radius: 1rem;
   min-height: 90vh;
   font-size: 14px;
+}
+
+.advertising_Add{
+  width: 20%;
 }
 
 @media only screen and (max-width: 480px) {
