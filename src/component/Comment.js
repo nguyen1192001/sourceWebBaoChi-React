@@ -47,7 +47,7 @@ function Comment(props) {
             <li className="item_comment">
               <div className="header_account-logo">
                 {User ? (
-                  <img src={userComment[0].avatar} alt="logoAvatar" />
+                  <img src={userComment[0]?.avatar} alt="logoAvatar" />
                 ) : (
                   ""
                 )}
@@ -93,6 +93,7 @@ function Comment(props) {
             alert("hãy là người văn minh và bình luận văn minh");
           } else {
             dispatch(pushCommentInList(dataCommentt));
+            fetchListComement()
           }
         })
         .catch((err) => {

@@ -27,18 +27,10 @@ function ArticlesManage() {
         // alert("jbfjd")
     }
 
-    // const fetchNew = async (idNew) => {
-    //     const response = await axios.get(Api().articlesfromtexted + "/" + idNew);
-    //     console.log(">>>>>>>..data checknew",response.data)
-    //     dispatch(getNew(response.data[0]))
-    //   };
 
     const checkNew = (id) => {
         history.push("/dmin/checkNew/"+id)
-        // fetchNew(id)
-        // dispatch(changeStateaAdminArticles())
-        // dispatch(changeStateaAdminAnalytics())
-        // dispatch(changeStateCheckNew())
+        
     }
 
     const fetchListNew = async () => {

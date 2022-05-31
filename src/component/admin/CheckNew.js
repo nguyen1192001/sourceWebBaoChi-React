@@ -73,9 +73,11 @@ function NewFromTextED(props) {
       </div>
       <div className="article_time">{news ? news.create_time : ""}</div>
       <div className="article_content">
-        {news
+          {console.log(document.querySelector(".article_content"))}
+        {
+        news 
           ? (document.querySelector(".article_content").innerHTML =
-              news.content)
+            news.content)
           : ""}
       </div>
       <div className="groupBtn">

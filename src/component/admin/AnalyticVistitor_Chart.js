@@ -127,29 +127,30 @@ function AnalyticVistitor_Chart() {
 
   for (let j = 0; j < news.length;) {
     for (let i = j + 1; i < news.length; i++) {
-      if (news[j].user_Id == news[i].user_Id) {
+      if (news[j].userId == news[i].userId) {
         countAnalytic2 = countAnalytic2 + 1
       }
     }
-    let user_Id = news[0].user_Id
-    resultAnalytic2.push({ user_Id, countAnalytic2 })
+    let userId = news[0].userId
+    resultAnalytic2.push({ userId, countAnalytic2 })
     news = news.filter((item) => {
-      return item.user_Id !== news[0].user_Id
+      return item.userId !== news[0].userId
     })
     countAnalytic2 = 1
     j = 0
   }
-  resultAnalytic2.push({ user_Id: '624c0d9aabfe61ea9894e2a5', countAnalytic2: 9 }, { user_Id: '624c0d9aabfe61ea9894e2a6', countAnalytic2: 1 })
+  // resultAnalytic2.push({ userId: '624c0d9aabfe61ea9894e2a5', countAnalytic2: 9 }, { userId: '624c0d9aabfe61ea9894e2a6', countAnalytic2: 1 })
 
-  console.log(">>>>>>>.. result analytics 2", resultAnalytic2)
+  // console.log(">>>>>>>.. result analytics 2", resultAnalytic2)
   // get 3 item after sort
   let test2 = resultAnalytic2.sort((a, b) => a.countAnalytic2 - b.countAnalytic2)
   console.log(">>>>>>>.. result", test2)
   let idArticles3 = []
-  resultAnalytic2.forEach(item => idArticles3.push(item.user_Id))
+  resultAnalytic2.forEach(item => idArticles3.push(item.userId))
+  console.log(">>>>>>>.. result analytics 2", idArticles3)
   let countDtPl3 = []
   resultAnalytic2.forEach(item => countDtPl3.push(item.countAnalytic2))
-
+  console.log(">>>>>>>.. result analytics 2", countDtPl3)
   let dataPayLoad3
   dataPayLoad3 = {
     options: {
@@ -187,7 +188,7 @@ function AnalyticVistitor_Chart() {
                 <Chart
                   options={dataPayload.options}
                   series={dataPayload.series}
-                  type="bar"
+                  type="bar "
                 // width="500"
                 />
               </div>
@@ -214,9 +215,6 @@ function AnalyticVistitor_Chart() {
           </div>
         </div>
       </div>
-
-
-
 
     </div>
   )
