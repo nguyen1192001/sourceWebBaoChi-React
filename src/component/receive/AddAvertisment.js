@@ -32,7 +32,7 @@ function AddAvertisment() {
   }, []);
 
   const renderAverId = listAver.map((item) => {
-    return <option value={item.advertismentId} />;
+    return <option value={item.advertismentId}/>;
   });
 
   const login = () => {
@@ -100,22 +100,30 @@ function AddAvertisment() {
           />
         </div>
         <div className="journalist_title">
-          <input
+        <input  onChange={(e) => {
+              setstartAv(e.target.value);
+           
+            }} type={'datetime-local'}/>
+          {/* <input
             type="text"
             defaultValue="start"
             onChange={(e) => {
               setstartAv(e.target.value);
             }}
-          />
+          /> */}
         </div>
         <div className="journalist_title">
-          <input
+          <input  onChange={(e) => {
+              setendAv(e.target.value);
+              console.log("event",e.target.value)
+            }} type={'datetime-local'}/>
+          {/* <input
             type="text"
             defaultValue="end"
             onChange={(e) => {
               setendAv(e.target.value);
             }}
-          />
+          /> */}
         </div>
         <div className="contentBox-btn">
           <button onClick={login}>Submit New</button>

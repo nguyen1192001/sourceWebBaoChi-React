@@ -6,7 +6,7 @@
   box-sizing: inherit;
 }
 .thaonguyen{
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 :root {
   --primary-color: #f3dcd6;

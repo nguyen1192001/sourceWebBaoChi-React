@@ -91,12 +91,11 @@ function Adversitiment() {
   };
 
   const seeAgreement = (item) => {
-    const agreementimg = "/advertising/agreement/" + item
-     history.push(agreementimg);
-
+    const agreementimg = "/advertising/agreement/" + item;
+    history.push(agreementimg);
   };
 
-  const deleteAd = async (advertismentId, detailsAdId) => {
+  const deleteAd = async ( detailsAdId ,advertismentId ) => {
     let result = await axios.delete(Api().avertisment, {
       params: { advertismentId, detailsAdId },
     });
@@ -105,17 +104,17 @@ function Adversitiment() {
   };
 
   const updateAd = async (updateAd, valueUpdate) => {
-      for (const key in valueUpdate) {
-          if (valueUpdate[key].length === 0) {
-              delete valueUpdate[key]
-          }
+    for (const key in valueUpdate) {
+      if (valueUpdate[key].length === 0) {
+        delete valueUpdate[key];
       }
+    }
     let update = { ...updateAd, ...valueUpdate };
     let result = await axios.put(Api().avertisment, update);
-        fetchAvertisment()
+    fetchAvertisment()
       .then((listAv) => setListAv(listAv))
       .catch((err) => console.log(err));
-     alert("update success");
+    alert("update success");
   };
 
   const [valueUpdate, setValueUpdate] = useState({
@@ -131,14 +130,14 @@ function Adversitiment() {
     });
   };
 
-  console.log("listAV",listAv)
+  console.log("listAV>>>>>..", listAv);
 
   const addAvertisment = () => {
-    history.push("/advertising/add")
-  }
+    history.push("/advertising/add");
+  };
   const createAvertisment = () => {
-    history.push("/advertising/create")
-  }
+    history.push("/advertising/create");
+  };
 
   return (
     <div className="boxAd">
@@ -147,8 +146,12 @@ function Adversitiment() {
       <div id="box">
         <div className="box-panel">
           <h1>advertising contract</h1>
-          <button className="advertising_Add" onClick={addAvertisment}>Add Avertiments</button>
-          <button className="advertising_Add" onClick={createAvertisment}>Create New Avertiments</button>
+          <button className="advertising_Add" onClick={addAvertisment}>
+            Add Avertiments
+          </button>
+          <button className="advertising_Add" onClick={createAvertisment}>
+            Create New Avertiments
+          </button>
           <div className="header_search boxAdmin">
             <div className="header_search-ip">
               <input
@@ -176,6 +179,8 @@ function Adversitiment() {
                 <th>image</th>
                 <th>link</th>
                 <th>active</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
               </tr>
             </thead>
             <tbody>
@@ -183,7 +188,9 @@ function Adversitiment() {
                 <tr key={key}>
                   <td>{item.full_name}</td>
                   <td>
-                    <button onClick={()=>seeAgreement(item.advertismentId)}>aggrement</button>
+                    <button onClick={() => seeAgreement(item.advertismentId)}>
+                      aggrement
+                    </button>
                   </td>
                   <td>
                     {stateInput[key] ? (
@@ -259,18 +266,23 @@ function Adversitiment() {
                         : item.listAv}
                     </a> */}
                   </td>
+                  
                   <td>
-                  {stateInput[key] ?
-                  <select name="checkAd" onChange={handleChange} defaultValue={item.checkAd}>
-                      <option value={1}>
-                          active
-                      </option>
-                      <option value={0}>
-                          disable
-                      </option>
-                      </select>: <span>{item.checkAd == 1 ? "active":"disabled"}</span>
-}
-                      </td>
+                    {stateInput[key] ? (
+                      <select
+                        name="checkAd"
+                        onChange={handleChange}
+                        defaultValue={item.checkAd}
+                      >
+                        <option value={1}>active</option>
+                        <option value={0}>disable</option>
+                      </select>
+                    ) : (
+                      <span>{item.checkAd == 1 ? "active" : "disabled"}</span>
+                    )}
+                  </td>
+                  <td>{item.advertisment_firsttime.split('T')[0]}</td>
+                  <td>{item.advertisment_endTime.split('T')[0]}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -281,45 +293,49 @@ function Adversitiment() {
                     </button>
                   </td>
                   <td>
-                    { stateInput[key] ? 
-                    <>
-                    <button
-                    style={{marginTop:"10px",marginRight:"5px"}}
-                      onClick={() => {
-                        updateAd(item, valueUpdate);
-                      }}
-                    >
-                      UPDATE
-                    </button> 
-                    <button
-                      onClick={() => {
-                        let abc = [...stateInput];
-                        abc[key] = !abc[key];
-                        setSateInput([...abc]);
-                        setValueUpdate({
-                          title: "",
-                          imageAd: "",
-                          linkAd: "",
-                        });
-                      }}
-                    >
-                      {"CANCLE  "}
-                    </button>
-                    </>:
-                    <button
-                      onClick={() => {
-                        let abc = [...stateInput];
-                        abc[key] = !abc[key];
-                        setSateInput([...abc]);
-                        setValueUpdate({
-                          title: "",
-                          imageAd: "",
-                          linkAd: "",
-                        });
-                      }}
-                    >
-                      EDIT
-                    </button>}
+                    {stateInput[key] ? (
+                      <>
+                        <button
+                          style={{ marginTop: "10px", marginRight: "5px" }}
+                          onClick={() => {
+                            updateAd(item, valueUpdate);
+                          }}
+                        >
+                          UPDATE
+                        </button>
+                        <button
+                       
+                          onClick={() => {
+                            let abc = [...stateInput];
+                            abc[key] = !abc[key];
+                            setSateInput([...abc]);
+                            setValueUpdate({
+                              title: "",
+                              imageAd: "",
+                              linkAd: "",
+                            });
+                          }}
+                        >
+                          {"CANCLE  "}
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                      disabled={item.checkAd == 0 }
+                        onClick={() => {
+                          let abc = [...stateInput];
+                          abc[key] = !abc[key];
+                          setSateInput([...abc]);
+                          setValueUpdate({
+                            title: "",
+                            imageAd: "",
+                            linkAd: "",
+                          });
+                        }}
+                      >
+                        EDIT
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
